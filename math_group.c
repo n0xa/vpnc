@@ -240,10 +240,9 @@ static void modp_getraw(struct group *grp, gcry_mpi_t v, unsigned char *d)
 {
 	size_t l, l2;
 	unsigned char *tmp;
-	int ret;
 
 	l = grp->getlen(grp);
-	ret = gcry_mpi_aprint(GCRYMPI_FMT_STD, &tmp, &l2, v);
+	gcry_mpi_aprint(GCRYMPI_FMT_STD, &tmp, &l2, v);
 	memcpy(d, tmp + (l2 - l), l);
 	gcry_free(tmp);
 #if 0
