@@ -510,13 +510,13 @@ int tun_close(int fd, char *dev)
 #elif defined(__CYGWIN__)
 int tun_close(int fd, char *dev)
 {
-	dev = NULL; /* unused */
+	(void)dev; /* unused parameter */
 	return CloseHandle((HANDLE) get_osfhandle(fd));
 }
 #else
 int tun_close(int fd, char *dev)
 {
-	dev = NULL; /*unused */
+	(void)dev; /* unused parameter */
 	return close(fd);
 }
 #endif
@@ -658,7 +658,7 @@ int tun_get_hwaddr(int fd, char *dev, uint8_t *hwaddr)
 #if defined(__CYGWIN__)
 	ULONG len;
 
-	dev = NULL; /* unused */
+	(void)dev; /* unused parameter */
 	if (!DeviceIoControl((HANDLE) get_osfhandle(fd), TAP_IOCTL_GET_MAC,
 		hwaddr, ETH_ALEN, hwaddr, ETH_ALEN, &len, NULL)) {
 		printf("Cannot get HW address\n");
@@ -686,9 +686,9 @@ int tun_get_hwaddr(int fd, char *dev, uint8_t *hwaddr)
 	return 0;
 #else
 	/* todo: implement using SIOCGLIFADDR */
-	fd = 0;
-	dev = 0;
-	hwaddr = 0;
+	(void)fd; /* unused parameter */
+	(void)dev; /* unused parameter */
+	(void)hwaddr; /* unused parameter */
 	errno = ENOSYS;
 	return -1;
 #endif
