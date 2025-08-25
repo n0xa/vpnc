@@ -879,7 +879,7 @@ static void vpnc_main_loop(struct sa_block *s)
 				}
 			}
 			DEBUG(2,printf("lifetime status: %ld of %u seconds used, %u|%u of %u kbytes used\n",
-				time(NULL) - s->ipsec.life.start,
+				(long)(time(NULL) - s->ipsec.life.start),
 				s->ipsec.life.seconds,
 				s->ipsec.life.rx/1024,
 				s->ipsec.life.tx/1024,

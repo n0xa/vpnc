@@ -259,7 +259,7 @@ static int modp_setraw(struct group *grp, gcry_mpi_t d, unsigned char *s, int l)
 {
 	int i;
 
-	grp = NULL; /* unused */
+	(void)grp; /* unused parameter */
 
 	gcry_mpi_set_ui(d, 0);
 	for (i = 0; i < l; i++) {
