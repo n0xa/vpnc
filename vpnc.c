@@ -195,7 +195,7 @@ static void addenv(const void *name, const char *value)
 	oldval = getenv(name);
 	if (oldval != NULL) {
 		strbuf = xallocc(strlen(oldval) + 1 + strlen(value) + 1);
-		strcat(strbuf, oldval);
+		strcpy(strbuf, oldval);
 		strcat(strbuf, " ");
 		strcat(strbuf, value);
 	}
@@ -1898,7 +1898,7 @@ static void do_phase1_am_packet2(struct sa_block *s, const char *shared_key)
 			gcry_md_close(hm);
 			hex_dump("skeyid_e", skeyid_e, s->ike.md_len, NULL);
 
-			memset(dh_shared_secret, 0, sizeof(dh_shared_secret));
+			memset(dh_shared_secret, 0, dh_getlen(s->ike.dh_grp));
 			free(dh_shared_secret);
 
 			/* Determine the IKE encryption key.  */
@@ -2191,13 +2191,12 @@ static int do_phase2_notice_check(struct sa_block *s, struct isakmp_packet **r_p
 static int do_phase2_xauth(struct sa_block *s)
 {
 	struct isakmp_packet *r = NULL;
-	int loopcount;
 	int reject;
 	int passwd_used = 0;
 
 	DEBUGTOP(2, printf("S5.1 xauth_request\n"));
 	/* This can go around for a while.  */
-	for (loopcount = 0;; loopcount++) {
+	for (;;) {
 		struct isakmp_payload *rp;
 		struct isakmp_attribute *a, *ap, *reply_attr, *last_reply_attr;
 		char ntop_buf[32];
